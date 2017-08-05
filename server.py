@@ -7,7 +7,7 @@ from urllib import unquote_plus
 from decimal import Decimal
 
 
-#from omxplayer import OMXPlayer
+from omxplayer import OMXPlayer
 import os,time
 sys.path.append('/')
 from project_movie import stream_video,searchphim
