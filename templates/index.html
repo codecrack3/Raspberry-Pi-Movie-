@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Xem phim thôi mà ! EZ vl !</title>
+
+		<!-- Bootstrap CSS -->
+		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/bootstrap-slider.css') }}" rel="stylesheet">
+			<link href="{{ url_for('static', filename='css/bootstrap-glyphicons.css') }}" rel="stylesheet">
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
+		<![endif]-->
+		<style type="text/css">
+		body{
+			text-align: center;
+
+		}
+		legend
+		{
+			text-align: center;
+		}
+		form{
+			margin-top: 35px;
+		}
+		form input{
+		 width: 50%;
+		 text-align: center;
+
+		}
+		.form-group{
+			width: 85%;
+			margin: 0 auto;
+			padding: 10px;
+
+		}
+		.search-results {
+			    
+    			margin: 0 auto;
+    			padding: 10px;
+
+		}
+		.search-results li{
+			    
+			    display: block;
+			    font-weight: bold;
+			    margin:15px;
+			    /*height: 100px;*/
+
+		}
+		.search-results small{
+			font-size: 0;
+		}
+		.control
+		{
+			margin-top: 15px;
+			padding: 10px;
+		}
+		.slider{
+			margin-top: 15px;
+		}
+		</style>
+	</head>
+	<body>
+		<form method="POST" role="form">
+			<legend><h3>Hôm nay bạn xem gì ?</h3></legend>
+		
+			<div class="form-group">
+				<label for="">Nhập tên phim: </label>
+
+				<input type="text" name="link" class="form-control" id="linka" placeholder="Xem gì type vô !!!">
+			</div>
+			<button class="btn btn-success">Tìm phim luôn</button>
+			<div class="control">
+			
+				
+			</div>
+			
+
+
+			<div class="link">
+				
+			</div>
+		</form>
+
+		<!-- jQuery -->
+		<script src="{{ url_for('static', filename='jquery-2.1.1.js') }}"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/bootstrap-slider.js') }}"></script>
+		<script type="text/javascript">
+
+		$(document).ready(function() {
+			// $('.control').hide();
+			
+			// $("#ex11").slider({step: 1, min: 0, max: 100000});
+		
+				$('.link').on('click','td',function(e){
+					var h =$('a',this).attr('href');
+					//alert(h);
+			$.ajax({
+				url: '/view',
+				data: {'url': h},
+				success: function(e)
+				{
+					//$('.control').show();
+					$('.control').html(e);
+					$("#ex11").slider();
+					//window.location = e;
+				}
+			})
+
+	e.preventDefault();
+			});
+
+		$("body").on('click','div.slider',function(event) {
+				//console.log($("#ex11").val())
+				var value = $("#ex11").val()
+				$.ajax({
+				url: '/view',
+				data: {'position': value},
+				success: function(e)
+				{
+					
+				}
+			})
+			});
+
+
+		$("body").on('click','button#stop',function(event) {
+			
+			// alert('stop');
+			$.ajax({
+				url: '/view',
+				data: {'action': 'stop'},
+				success: function(e)
+				{
+					
+				}
+			})
+			event.preventDefault();
+		});
+
+		$("body").on('click','button#ref',function(event) {
+			
+			// alert('stop');
+			$.ajax({
+				url: '/view',
+				data: {'action': 'ref'},
+				success: function(e)
+				{
+					
+				}
+			})
+			event.preventDefault();
+		});
+
+		$("body").on('click','button#play',function(event) {
+			
+			$.ajax({
+				url: '/view',
+				data: {'action': 'play'},
+				success: function(e)
+				{
+					
+				}
+			})
+
+			event.preventDefault();
+		});
+		$("body").on('click','button#pause',function(event) {
+			
+			$.ajax({
+				url: '/view',
+				data: {'action': 'pause'},
+				success: function(e)
+				{
+					
+				}
+			})
+			event.preventDefault();
+		});
+			
+			
+			$("form").submit(function(event) {
+				var a = $("#linka").val();
+				$.ajax({
+				url: '/search',
+				type: "POST",
+				contentType: "application/json",
+				data: JSON.stringify({'search':a}),
+				
+				success: function(e)
+
+				{
+					if(e != 'False')
+					{
+						console.log(e);
+						$(".link").html(e);
+
+					}
+					else
+					{
+						$(".link").html('<br><h4 style="color:red">Lỗi trong xử lý</h4>');
+					}
+					// if(e != 'False')
+					// {
+					// 	$(".link").html('<br><a href='+e+'>Xem ngay</a>');
+					// }
+					// else
+					// {
+					// 	$(".link").html('<br><h4 style="color:red">Lỗi trong xử lý</h4>');
+					// }
+					
+				}
+			});
+				event.preventDefault();
+			});
+			
+			
+		});
+		</script>
+	</body>
+</html>
