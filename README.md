@@ -1,10 +1,12 @@
-"# Raspberry-Pi-Movie !" 
+## Raspberry-Pi-Movie ! 
 ![Screenshot](bg.png)
-#requirements
+**requirements**
 
-BeautifulSoup4
-OMXPlayer wrapper
+1. _BeautifulSoup4_
+2. _OMXPlayer wrapper_
 
-#Usage
-     python server.py 
+
+
+**Usage**
+### python server.py
 
